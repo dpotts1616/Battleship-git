@@ -12,8 +12,7 @@ namespace Battleship
         {
             Platform platform = new Platform();
 
-            platform.SetUpGameBoard();
-
+            platform.PlayBattleship();
 
             Console.ReadLine();
         }

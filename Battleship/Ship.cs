@@ -8,5 +8,19 @@ namespace Battleship
 {
     class Ship
     {
+        //member variables
+        public bool destroyed;
+        public int length;
+        public string identifier;
+        public string name;
+
+        //constructor
+        public Ship()
+        {
+            destroyed = false;
+        }
+
+        //methods
+
     }
 }

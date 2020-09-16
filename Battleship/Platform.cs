@@ -11,10 +11,12 @@ namespace Battleship
         //member variables
         public List<Player> players;
         public Display display;
+        public int[] ship;
 
         //constructor
         public Platform()
         {
+            display = new Display();
             players = new List<Player>();
             players.Add(new Player("player1"));
             players.Add(new Player("player2"));
@@ -26,7 +28,9 @@ namespace Battleship
         {
             //set up board(done in constructor)
             //player 1 ship grid
-                //place ships
+            //place ships
+            PlaceShips(players[0]);
+            PlaceShips(players[1]);
                 //player 1 empty grid(hit/miss)
             //player 2 ship grid
                 //place ships
@@ -36,61 +40,41 @@ namespace Battleship
 
         public void PlaceShips(Player player)
         {
+            PlaceDestroyer(player);
+            PlaceSubmarine(player);
+            PlaceBattleship(player);
 
-            int[] ship = display.AskForShipLocation();
-            player.PlaceShip(ship);
+            //ship = display.AskForShipLocation();
+            //int direction = display.AskForShipDirection();
+            //player.PlaceShip(ship, direction, player);
 
         }
 
-        public void PlaceDestroyer()
+        public void PlaceDestroyer(Player player)
         {
-
+            Destroyer destroyer = new Destroyer();
+            ship = display.AskForShipLocation(destroyer);
+            int direction = display.AskForShipDirection();
+            player.PlaceShip(ship, direction, player, destroyer);
         }
 
-        public void PlaceSubmarine()
+        public void PlaceSubmarine(Player player)
         {
-
+            Submarine submarine = new Submarine();
+            ship = display.AskForShipLocation(submarine);
+            int direction = display.AskForShipDirection();
+            player.PlaceShip(ship, direction, player, submarine);
         }
 
-        public void PlaceBattleship()
+        public void PlaceBattleship(Player player)
         {
+            Battleship battleship = new Battleship();
+            ship = display.AskForShipLocation(battleship);
+            int direction = display.AskForShipDirection();
+            player.PlaceShip(ship, direction, player, battleship);
 
         }
 
-        //in grid class
-        public void SetUpGameBoard()
-        {
-            string[,] gridArray = new string[21, 21];
-            gridArray[0, 0] = "0";
-            string a;
-
-            for (int i = 1; i < 21; i++)
-            {
-                a = Convert.ToString(i);
-                gridArray[0, i] = a;
-            }
-            for (int i = 1; i < 21; i++)
-            {
-                a = Convert.ToString(i);
-                gridArray[i, 0] = a;
-            }
-
-            for (int r = 1; r < 21; r++)
-            {
-                for (int c = 1; c < 21; c++)
-                {
-                    gridArray[r, c] = "O";
-                }
-            }
-
-            for (int r = 0; r < gridArray.GetLength(0); r++)
-            {
-                for (int c = 0; c < gridArray.GetLength(1); c++)
-                {
-                    Console.Write(gridArray[r, c]);
-                }
-                Console.WriteLine();
-            }
-        }
+        
     }
 }

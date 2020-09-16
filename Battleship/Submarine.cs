@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace Battleship
 {
-    class Submarine
+    class Submarine : Ship
     {
+        //member variables
+
+        //constructor
+        public Submarine()
+        {
+            name = "Submarine";
+            length = 3;
+            identifier = "S";
+        }
+
+        //methods
     }
 }
