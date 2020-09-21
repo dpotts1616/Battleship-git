@@ -13,6 +13,7 @@ namespace Battleship
         public int length;
         public string identifier;
         public string name;
+        public int maxPlacement;
 
         //constructor
         public Ship()

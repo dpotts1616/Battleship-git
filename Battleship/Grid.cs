@@ -11,13 +11,15 @@ namespace Battleship
         //member variables
         public string name;
         public string[,] gridArray;
+        public int boardSize;
 
 
         //constructor
         public Grid(string name)
         {
             this.name = name;
-            gridArray = new string[21, 21];
+            boardSize = 21;
+            gridArray = new string[boardSize, boardSize];
             gridArray[0, 0] = "0";
             string a;
 
@@ -42,10 +44,6 @@ namespace Battleship
         }
 
         //methods
-        public void PlaceShip(int[] array, int direction)
-        {
-            
-        }
-
+       
     }
 }

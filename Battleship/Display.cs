@@ -13,46 +13,117 @@ namespace Battleship
         //constructor
 
         //methods
-        public int[] AskForShipLocation(Ship ship)
+        public int[] AskForShipLocation(Ship ship, Player player)
         {
+            int row;
+            int column;
             int[] location = new int[2];
-            Console.WriteLine($"Where would you like your {ship.name} to start?");
-            Console.Write("Row: ");int row = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Column: "); int column = Convert.ToInt32(Console.ReadLine());
-            location[0] = row;
-            location[1] = column;
+            do
+            {
+                Console.WriteLine($"Where would you like your {ship.name} to start?");
+                Console.Write("Row: "); row = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Column: "); column = Convert.ToInt32(Console.ReadLine());
+                location[0] = row;
+                location[1] = column;
+                
+            } while (ParameterCheck(row, column, ship, player) == false);
             return location;
         }
 
-        public int AskForShipDirection()
+        public bool ParameterCheck(int row, int column, Ship ship, Player player)
+        {
+            bool validPlacement = true;
+            if (row > (player.grids[0].boardSize - ship.length) && column > (player.grids[0].boardSize - ship.length))
+            {
+                validPlacement = false;
+            }
+            if ((row == 0 || column == 0))
+            {
+                validPlacement = false;
+            }
+            if (row > player.grids[0].boardSize || column > player.grids[0].boardSize)
+            {
+                validPlacement = false;
+            }
+            return validPlacement;
+        }
+
+        public int AskForShipDirection(int[] array,Ship ship, Player player)
         {
             bool valid = false;
             do
             {
-                Console.Clear();
+                //Console.Clear();
                 Console.WriteLine("Please select which direction this ship should face?");
                 Console.WriteLine("1) Right");
                 Console.WriteLine("2) Down");
-                //Console.WriteLine("3) Up");
-                //Console.WriteLine("4) Left");
                 int direction = Convert.ToInt32(Console.ReadLine());
 
                 switch (direction)
                 {
                     case 1:
+                        if((array[1] + ship.length) > player.grids[0].boardSize)
+                        {
+                            Console.WriteLine($"Sorry, that would put your {ship.name} outside the board");
+                            break;
+                        }
                         return 1;
                     case 2:
+                        if ((array[0] + ship.length) > player.grids[0].boardSize)
+                        {
+                            Console.WriteLine($"Sorry, that would put your {ship.name} outside the board");
+                            break;
+                        }
                         return 2;
-                    //case 3:
-                      //  return 3;
-                    //case 4:
-                      //  return 4;
                     default:
                         Console.WriteLine("Sorry this is not a valid selection. Please enter 1 or 2.");
                         break;
                 } 
             } while (valid == false);
             return 0;
+        }
+
+        public int[] GetTargetLocation(Player player)
+        {
+            int row;
+            int column;
+            int[] location = new int[2];
+            do
+            {
+                Console.WriteLine($"Where would you like to target?");
+                Console.Write("Row: "); row = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Column: "); column = Convert.ToInt32(Console.ReadLine());
+                location[0] = row;
+                location[1] = column;
+
+            } while (row > 0 && row < player.grids[0].boardSize && column > 0 && column < player.grids[0].boardSize);
+            return location;
+        }
+
+        //public void PrintBoard(Grid grid)
+        //{
+        //    for (int r = 0; r < player.grids[0].gridArray.GetLength(0); r++)
+        //    {
+        //        for (int c = 0; c < player.grids[0].gridArray.GetLength(1); c++)
+        //        {
+        //                Console.Write(player.grids[0].gridArray[r, c]);
+        //        }
+        //        Console.WriteLine();
+        //    }
+
+        //}
+
+        public void PrintBoard(Grid grid)
+        {
+            for (int r = 0; r < grid.gridArray.GetLength(0); r++)
+            {
+                for (int c = 0; c < grid.gridArray.GetLength(1); c++)
+                {
+                    Console.Write(grid.gridArray[r, c]);
+                }
+                Console.WriteLine();
+            }
+
         }
 
     }
