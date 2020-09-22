@@ -13,6 +13,13 @@ namespace Battleship
         //constructor
 
         //methods
+        public void WelcomeScreen()
+        {
+            Console.WriteLine("Welcome to Battleship!");
+            Console.WriteLine("First one to sink all of the other teams ships wins!");
+            Console.ReadLine();
+        }
+
         public int[] AskForShipLocation(Ship ship, Player player)
         {
             int row;
@@ -53,7 +60,6 @@ namespace Battleship
             bool valid = false;
             do
             {
-                //Console.Clear();
                 Console.WriteLine("Please select which direction this ship should face?");
                 Console.WriteLine("1) Right");
                 Console.WriteLine("2) Down");
@@ -96,32 +102,21 @@ namespace Battleship
                 location[0] = row;
                 location[1] = column;
 
-            } while (row < 1 && row > player.grids[0].boardSize && column < 1 && column > player.grids[0].boardSize);
+            } while (row < 1 || row > player.grids[0].boardSize || column < 1 || column > player.grids[0].boardSize);
             return location;
         }
 
-        //public void PrintBoard(Grid grid)
-        //{
-        //    for (int r = 0; r < player.grids[0].gridArray.GetLength(0); r++)
-        //    {
-        //        for (int c = 0; c < player.grids[0].gridArray.GetLength(1); c++)
-        //        {
-        //                Console.Write(player.grids[0].gridArray[r, c]);
-        //        }
-        //        Console.WriteLine();
-        //    }
-
-        //}
 
         public void PrintBoard(Grid grid, Player player)
         {
             Console.Clear();
             Console.WriteLine(player.name);
+            Console.WriteLine();
             for (int r = 0; r < grid.gridArray.GetLength(0); r++)
             {
                 for (int c = 0; c < grid.gridArray.GetLength(1); c++)
                 {
-                    Console.Write(grid.gridArray[r, c]);
+                    Console.Write($"{grid.gridArray[r, c], 5}");
                 }
                 Console.WriteLine();
             }
@@ -146,6 +141,12 @@ namespace Battleship
             Console.WriteLine(d > 0 ? "Destroyer" : null);
             Console.WriteLine(s > 0 ? "Submarine" : null);
             Console.WriteLine(b > 0 ? "BattleShip" : null);
+        }
+
+
+        public void DeclareWinner(string winner)
+        {
+            Console.WriteLine($"{winner} is the winner!!");
         }
 
     }

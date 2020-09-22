@@ -27,20 +27,11 @@ namespace Battleship
         //run game
         public void PlayBattleship()
         {
-            //set up board(done in constructor)
-                //player 1 ship grid
+            display.WelcomeScreen();
             SetUpBoard(players[0]);
-            //player 2 ship grid
             SetUpBoard(players[1]);
-
-            //attack rounds
-            RunAttackRounds(players[0], players[1]);
-
-
-
-            //hit/miss board checks
-            //PrintBoard(players[0].grids[1]);
-            //PrintBoard(players[1].grids[1]);
+            string winner = RunAttackRounds(players[0], players[1]);
+            display.DeclareWinner(winner);
         }
 
 
@@ -106,7 +97,7 @@ namespace Battleship
         }
 
 
-        public void RunAttackRounds(Player player1, Player player2)
+        public string RunAttackRounds(Player player1, Player player2)
         {
             bool playerOneturn = true;
             do
@@ -121,8 +112,11 @@ namespace Battleship
                 }
                 playerOneturn = !playerOneturn;
             } while (CountGrid(player1.grids[0].gridArray, "O") < 400 && CountGrid(player2.grids[0].gridArray, "O") < 400);
-           
-
+            if(CountGrid(player1.grids[0].gridArray, "O") < CountGrid(player2.grids[0].gridArray, "O"))
+            {
+                return player1.name;
+            }
+            else { return player2.name; }
         }
 
         public void PlayerTurn(Player attackPlayer, Player defendPlayer)
