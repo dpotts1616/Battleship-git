@@ -110,7 +110,7 @@ namespace Battleship
         public void PrintBoard(Grid grid, Player player)
         {
             Console.Clear();
-            Console.WriteLine(player.name);
+            Console.WriteLine(player.name + " " + grid.name);
             Console.WriteLine();
             for (int r = 0; r < grid.gridArray.GetLength(0); r++)
             {
@@ -120,27 +120,34 @@ namespace Battleship
                 }
                 Console.WriteLine();
             }
+        }
 
+        public void SwitchPlayers(Player player)
+        {
+            Console.Clear();
+            Console.WriteLine($"Please give the computer to {player.name}");
+            Console.ReadLine();
         }
 
         public void PrintAttackResult(bool hit)
         {
-            if (hit ==true)
-            {
-                Console.WriteLine("Hit!!");
-            }
-            else
-            {
-                Console.WriteLine("Miss");
-            }
+            Console.WriteLine(hit == true ? "Hit!!" : "Miss");
+            //if (hit ==true)
+            //{
+            //    Console.WriteLine("Hit!!");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Miss");
+            //}
         }
 
         public void ShowEnemyShipsRemaining(int d, int s, int b)
         {
             Console.WriteLine("Enemy Ships Remaining:");
-            Console.WriteLine(d > 0 ? "Destroyer" : null);
-            Console.WriteLine(s > 0 ? "Submarine" : null);
-            Console.WriteLine(b > 0 ? "BattleShip" : null);
+            Console.WriteLine(d > 0 ? "Destroyer" : "Destroyer: Sunk!");
+            Console.WriteLine(s > 0 ? "Submarine" : "Submarine: Sunk!");
+            Console.WriteLine(b > 0 ? "BattleShip" : "BattleShip: Sunk!");
         }
 
 

@@ -18,8 +18,8 @@ namespace Battleship
         {
             this.name = name;
             grids = new List<Grid>();
-            grids.Add(new Grid("shipGrid"));
-            grids.Add(new Grid("hitGrid"));
+            grids.Add(new Grid("Ship Grid"));
+            grids.Add(new Grid("Hit Grid"));
         }
 
         //methods
@@ -47,14 +47,12 @@ namespace Battleship
             bool hit = false;
             if (player.grids[0].gridArray[target[0],target[1]] == "O")
             {
-                //miss
                 return hit;
             }
             else if (player.grids[0].gridArray[target[0], target[1]] != "O")
             {
-                //hit
                 hit = true;
-                player.grids[0].gridArray[target[0], target[1]] = "O";
+                player.grids[0].gridArray[target[0], target[1]] = "X";
                 return hit;
             }
             return hit;

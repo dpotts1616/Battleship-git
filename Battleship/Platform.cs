@@ -45,7 +45,7 @@ namespace Battleship
                 if (CountGrid(player.grids[0].gridArray, "O") > 391)
                 {
                     player.grids.Remove(player.grids[0]);
-                    player.grids.Insert(0, new Grid("shipGrid"));
+                    player.grids.Insert(0, new Grid("Ship Grid"));
                 }
             } while (CountGrid(player.grids[0].gridArray, "O") > 391);
 
@@ -111,8 +111,8 @@ namespace Battleship
                     PlayerTurn(player2, player1);
                 }
                 playerOneturn = !playerOneturn;
-            } while (CountGrid(player1.grids[0].gridArray, "O") < 400 && CountGrid(player2.grids[0].gridArray, "O") < 400);
-            if(CountGrid(player1.grids[0].gridArray, "O") < CountGrid(player2.grids[0].gridArray, "O"))
+            } while (TotalGrid(player1) < 400 && TotalGrid(player2) < 400);
+            if(TotalGrid(player1) < TotalGrid(player2))
             {
                 return player1.name;
             }
@@ -121,6 +121,9 @@ namespace Battleship
 
         public void PlayerTurn(Player attackPlayer, Player defendPlayer)
         {
+            display.SwitchPlayers(attackPlayer);
+            display.PrintBoard(attackPlayer.grids[0], attackPlayer);
+            Console.ReadLine();
             display.PrintBoard(attackPlayer.grids[1], attackPlayer);
             ShowEnemyShipsRemaining(defendPlayer);
             placement = display.GetTargetLocation(attackPlayer);
@@ -137,6 +140,12 @@ namespace Battleship
             int s = CountGrid(player.grids[0].gridArray, "S");
             int b = CountGrid(player.grids[0].gridArray, "B");
             display.ShowEnemyShipsRemaining(d, s, b);
+        }
+
+        public int TotalGrid(Player player)
+        {
+            int i = (CountGrid(player.grids[0].gridArray, "O") + CountGrid(player.grids[0].gridArray, "X"));
+            return i;
         }
     }
 }
