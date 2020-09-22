@@ -96,7 +96,7 @@ namespace Battleship
                 location[0] = row;
                 location[1] = column;
 
-            } while (row > 0 && row < player.grids[0].boardSize && column > 0 && column < player.grids[0].boardSize);
+            } while (row < 1 && row > player.grids[0].boardSize && column < 1 && column > player.grids[0].boardSize);
             return location;
         }
 
@@ -113,8 +113,10 @@ namespace Battleship
 
         //}
 
-        public void PrintBoard(Grid grid)
+        public void PrintBoard(Grid grid, Player player)
         {
+            Console.Clear();
+            Console.WriteLine(player.name);
             for (int r = 0; r < grid.gridArray.GetLength(0); r++)
             {
                 for (int c = 0; c < grid.gridArray.GetLength(1); c++)
@@ -124,6 +126,26 @@ namespace Battleship
                 Console.WriteLine();
             }
 
+        }
+
+        public void PrintAttackResult(bool hit)
+        {
+            if (hit ==true)
+            {
+                Console.WriteLine("Hit!!");
+            }
+            else
+            {
+                Console.WriteLine("Miss");
+            }
+        }
+
+        public void ShowEnemyShipsRemaining(int d, int s, int b)
+        {
+            Console.WriteLine("Enemy Ships Remaining:");
+            Console.WriteLine(d > 0 ? "Destroyer" : null);
+            Console.WriteLine(s > 0 ? "Submarine" : null);
+            Console.WriteLine(b > 0 ? "BattleShip" : null);
         }
 
     }

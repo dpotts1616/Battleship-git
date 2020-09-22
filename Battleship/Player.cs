@@ -42,15 +42,33 @@ namespace Battleship
             }
         }
 
-        public void CheckBoard(int [] target, Player player)
+        public bool CheckBoard(int [] target, Player player)
         {
+            bool hit = false;
             if (player.grids[0].gridArray[target[0],target[1]] == "O")
-            {  
+            {
                 //miss
+                return hit;
             }
             else if (player.grids[0].gridArray[target[0], target[1]] != "O")
             {
                 //hit
+                hit = true;
+                player.grids[0].gridArray[target[0], target[1]] = "O";
+                return hit;
+            }
+            return hit;
+        }
+
+        public void UpdateHitBoard(int[] target, bool hit, Player player)
+        {
+            if (hit == true)
+            {
+                player.grids[1].gridArray[target[0], target[1]] = "H";
+            }
+            else if (hit == false)
+            {
+                player.grids[1].gridArray[target[0], target[1]] = "M";
             }
         }
 

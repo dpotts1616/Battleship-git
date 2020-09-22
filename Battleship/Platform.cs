@@ -19,8 +19,8 @@ namespace Battleship
         {
             display = new Display();
             players = new List<Player>();
-            players.Add(new Player("player1"));
-            players.Add(new Player("player2"));
+            players.Add(new Player("Player 1"));
+            players.Add(new Player("Player 2"));
         }
 
         //methods
@@ -33,19 +33,14 @@ namespace Battleship
             //player 2 ship grid
             SetUpBoard(players[1]);
 
-            //player 1 turn
-            //print hit/miss board
-            PlayerOneTurn(players[0], players[1]);
-            
-                //ask where to target
-            
+            //attack rounds
+            RunAttackRounds(players[0], players[1]);
 
-                //compare to player 2 board
-                //announce hit/miss
-                //update boards
-                
-            PrintBoard(players[0].grids[0]);
-            PrintBoard(players[1].grids[0]);
+
+
+            //hit/miss board checks
+            //PrintBoard(players[0].grids[1]);
+            //PrintBoard(players[1].grids[1]);
         }
 
 
@@ -53,35 +48,36 @@ namespace Battleship
         {
             do
             {
-                Console.Clear();
-                PrintBoard(player.grids[0]);
                 PlaceDestroyer(player);
                 PlaceSubmarine(player);
                 PlaceBattleship(player);
-                if (CountGrid(player.grids[0].gridArray) > 391)
+                if (CountGrid(player.grids[0].gridArray, "O") > 391)
                 {
                     player.grids.Remove(player.grids[0]);
                     player.grids.Insert(0, new Grid("shipGrid"));
                 }
-            } while (CountGrid(player.grids[0].gridArray) > 391);
+            } while (CountGrid(player.grids[0].gridArray, "O") > 391);
 
         }
 
         public void PlaceDestroyer(Player player)
         {
             Destroyer destroyer = new Destroyer();
+            display.PrintBoard(player.grids[0], player);
             GetShipInfo(player, destroyer);
         }
 
         public void PlaceSubmarine(Player player)
         {
             Submarine submarine = new Submarine();
+            display.PrintBoard(player.grids[0], player);
             GetShipInfo(player, submarine);
         }
 
         public void PlaceBattleship(Player player)
         {
             Battleship battleship = new Battleship();
+            display.PrintBoard(player.grids[0], player);
             GetShipInfo(player, battleship);
 
         }
@@ -93,19 +89,14 @@ namespace Battleship
             player.PlaceShip(placement, direction, player, ship);
         }
 
-        public void PrintBoard(Grid grid)
-        {
-            display.PrintBoard(grid);
-        }
-
-        public int CountGrid(string[,] gridArray)
+        public int CountGrid(string[,] gridArray, string identifier)
         {
             int count = 0;
             for (int r = 1; r < 21; r++)
             {
                 for (int c = 1; c < 21; c++)
                 {
-                    if (gridArray[r, c] == "O")
+                    if (gridArray[r, c] == identifier)
                     {
                         count++;
                     }
@@ -114,20 +105,44 @@ namespace Battleship
             return count;
         }
 
-        public void PlayerOneTurn(Player player1, Player player2)
+
+        public void RunAttackRounds(Player player1, Player player2)
         {
-            PrintBoard(player1.grids[1]);
-            placement = display.GetTargetLocation(player1);
-            //check player 2 board
-            //if target != "O"
-            CheckBoard(placement, player2);
+            bool playerOneturn = true;
+            do
+            {
+                if (playerOneturn == true)
+                {
+                    PlayerTurn(player1, player2);
+                }
+                else
+                {
+                    PlayerTurn(player2, player1);
+                }
+                playerOneturn = !playerOneturn;
+            } while (CountGrid(player1.grids[0].gridArray, "O") < 400 && CountGrid(player2.grids[0].gridArray, "O") < 400);
+           
+
+        }
+
+        public void PlayerTurn(Player attackPlayer, Player defendPlayer)
+        {
+            display.PrintBoard(attackPlayer.grids[1], attackPlayer);
+            ShowEnemyShipsRemaining(defendPlayer);
+            placement = display.GetTargetLocation(attackPlayer);
+            bool hit = defendPlayer.CheckBoard(placement, defendPlayer);
+            display.PrintAttackResult(hit);
+            attackPlayer.UpdateHitBoard(placement, hit, attackPlayer);
+            Console.ReadLine();
             
         }
 
-        public void CheckBoard(int [] target, Player player)
+        public void ShowEnemyShipsRemaining(Player player)
         {
-            player.CheckBoard(target, player);
+            int d = CountGrid(player.grids[0].gridArray, "D");
+            int s = CountGrid(player.grids[0].gridArray, "S");
+            int b = CountGrid(player.grids[0].gridArray, "B");
+            display.ShowEnemyShipsRemaining(d, s, b);
         }
-
     }
 }
