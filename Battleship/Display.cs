@@ -22,14 +22,14 @@ namespace Battleship
 
         public int[] AskForShipLocation(Ship ship, Player player)
         {
-            int row;
-            int column;
+            int row = 0;
+            int column = 0;
             int[] location = new int[2];
             do
             {
                 Console.WriteLine($"Where would you like your {ship.name} to start?");
-                Console.Write("Row: "); row = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Column: "); column = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Row: "); try { row = Convert.ToInt32(Console.ReadLine()); } catch { }
+                Console.Write("Column: "); try { column = Convert.ToInt32(Console.ReadLine()); } catch { }
                 location[0] = row;
                 location[1] = column;
                 
@@ -57,13 +57,14 @@ namespace Battleship
 
         public int AskForShipDirection(int[] array,Ship ship, Player player)
         {
+            int direction = 0;
             bool valid = false;
             do
             {
                 Console.WriteLine("Please select which direction this ship should face?");
                 Console.WriteLine("1) Right");
                 Console.WriteLine("2) Down");
-                int direction = Convert.ToInt32(Console.ReadLine());
+                try { direction = Convert.ToInt32(Console.ReadLine()); } catch { }
 
                 switch (direction)
                 {
@@ -91,14 +92,14 @@ namespace Battleship
 
         public int[] GetTargetLocation(Player player)
         {
-            int row;
-            int column;
+            int row = 0;
+            int column = 0;
             int[] location = new int[2];
             do
             {
                 Console.WriteLine($"Where would you like to target?");
-                Console.Write("Row: "); row = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Column: "); column = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Row: "); try { row = Convert.ToInt32(Console.ReadLine()); } catch { }
+                Console.Write("Column: "); try { column = Convert.ToInt32(Console.ReadLine()); } catch { }
                 location[0] = row;
                 location[1] = column;
 
@@ -132,14 +133,6 @@ namespace Battleship
         public void PrintAttackResult(bool hit)
         {
             Console.WriteLine(hit == true ? "Hit!!" : "Miss");
-            //if (hit ==true)
-            //{
-            //    Console.WriteLine("Hit!!");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Miss");
-            //}
         }
 
         public void ShowEnemyShipsRemaining(int d, int s, int b)
